@@ -2,6 +2,9 @@
 
 Contains all necessary resources for a snowflake setup with DBT and Airflow scheduling
 
+# Snowflake Endpoint
+https://cr71697.west-europe.azure.snowflakecomputing.com/
+
 ## Environment Variables
 See .env.sample for necessary environment variables
 
