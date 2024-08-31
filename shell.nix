@@ -96,6 +96,7 @@ mkShell {
         notebook
         pyarrow
         pyiceberg
+        minio
 
         dbt-core # for intellisense
 
