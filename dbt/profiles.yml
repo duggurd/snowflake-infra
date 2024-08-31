@@ -1,0 +1,11 @@
+snowflake_dev:
+  target: dev
+  outputs:
+    dev:
+      type: snowflake
+      account: CR71697.west-europe.azure
+      user: "{{ env_var('SNOWFLAKE_USER') }}"
+      password: "{{ env_var('SNOWFLAKE_PASSWORD') }}"
+      threads: 4
+      database: PROD
+      schema: PUBLIC
