@@ -21,6 +21,11 @@ resource "snowflake_account_role" "platform" {
   name = "PLATFORM"
 }
 
+resource "snowflake_account_role" "dbt_dev" {
+  name = "DBT_DEV"
+}
+
+# Grants
 resource "snowflake_grant_privileges_to_account_role" "platform_account" {
   account_role_name = snowflake_account_role.platform.name
   with_grant_option = true
@@ -109,13 +114,55 @@ resource "snowflake_grant_privileges_to_account_role" "platform_all_et" {
 }
 
 
+resource "snowflake_grant_privileges_to_account_role" "dbt_dev_prod" {
+   account_role_name = snowflake_account_role.dbt_dev.name
+   privileges = [ 
+    "USAGE",
+    "CREATE SCHEMA",
+   ]
+   on_account_object {
+     object_type = "DATABASE"
+     object_name = snowflake_database.prod.name
+   }  
+}
 
+
+resource "snowflake_grant_privileges_to_account_role" "dbt_dev_prod_schemas" {
+   account_role_name = snowflake_account_role.dbt_dev.name
+   privileges = [ 
+    "USAGE",
+    "CREATE TABLE",
+    "CREATE DYNAMIC TABLE",
+    "CREATE VIEW",
+    # "CREATE MATERIALIZED VIEW",
+   ]
+   on_schema {
+     schema_name = "${snowflake_database.prod.name}.${snowflake_schema.raw.name}"
+   }  
+}
+
+resource "snowflake_grant_privileges_to_account_role" "dbt_dev_prod_et" {
+   account_role_name = snowflake_account_role.dbt_dev.name
+   privileges = [ 
+    "SELECT"
+   ]
+   on_schema_object {
+    object_type = "EXTERNAL TABLE"
+     object_name = "${snowflake_external_table.s3_minio_mirror.database}.${snowflake_external_table.s3_minio_mirror.schema}.${snowflake_external_table.s3_minio_mirror.name}"
+   }  
+}
 
 
 resource "snowflake_grant_account_role" "platform" {
   role_name = snowflake_account_role.platform.name
   user_name = "DUGGURD"
 }
+
+resource "snowflake_grant_account_role" "platform_aliti" {
+  role_name = snowflake_account_role.platform.name
+  user_name = snowflake_user.aliti_coding.name
+}
+
 
 
 # Users
