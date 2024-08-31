@@ -5,6 +5,7 @@ __pycache__/
 
 testing.ipynb
 
+*.db
 # env
 .direnv
 .vscode

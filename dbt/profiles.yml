@@ -1,9 +1,10 @@
 snowflake_dev:
-  target: dev
+  target: dbt_dev
   outputs:
-    dev:
+    dbt_dev:
       type: snowflake
       account: CR71697.west-europe.azure
+      role: DBT_DEV
       user: "{{ env_var('SNOWFLAKE_USER') }}"
       password: "{{ env_var('SNOWFLAKE_PASSWORD') }}"
       threads: 4
